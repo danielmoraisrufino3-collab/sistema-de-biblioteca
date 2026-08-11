@@ -33,3 +33,39 @@ def salvar_livros(livros):
 
         escritor.writeheader()
         escritor.writerows(livros)
+def cadastrar_livro(livros):
+    """Cadastra um novo livro."""
+    print("\n--- CADASTRAR LIVRO ---")
+
+    titulo = input("Título: ").strip()
+    autor = input("Autor: ").strip()
+    isbn = input("Código/ISBN: ").strip()
+
+    if not titulo or not autor or not isbn:
+        print("Todos os campos são obrigatórios.")
+        return livros
+
+    for livro in livros:
+        if livro["isbn"] == isbn:
+            print("Já existe um livro com esse código/ISBN.")
+            return livros
+
+    while True:
+        try:
+            ano = int(input("Ano de publicação: "))
+
+            if ano > 0:
+                break
+
+            print("Digite um ano válido.")
+
+        except ValueError:
+            print("Digite apenas números para o ano.")
+
+    novo_livro = {
+        "titulo": titulo,
+        "autor": autor,
+        "ano": ano,
+        "isbn": isbn,
+        "status": "disponível"
+    }
