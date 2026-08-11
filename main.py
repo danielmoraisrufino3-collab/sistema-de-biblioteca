@@ -69,3 +69,43 @@ def cadastrar_livro(livros):
         "isbn": isbn,
         "status": "disponível"
     }
+livros.append(novo_livro)
+    salvar_livros(livros)
+
+    print("Livro cadastrado com sucesso!")
+
+    return livros
+
+
+def encontrar_livro(livros, isbn):
+    """Encontra um livro pelo código/ISBN."""
+    for livro in livros:
+        if livro["isbn"] == isbn:
+            return livro
+
+    return None
+
+
+def emprestar_livro(livros):
+    """Registra o empréstimo de um livro."""
+    print("\n--- EMPRESTAR LIVRO ---")
+
+    isbn = input("Digite o código/ISBN: ").strip()
+
+    livro = encontrar_livro(livros, isbn)
+
+    if livro is None:
+        print("Livro não encontrado.")
+        return livros
+
+    if livro["status"] == "emprestado":
+        print("Este livro já está emprestado.")
+        return livros
+
+    livro["status"] = "emprestado"
+
+    salvar_livros(livros)
+
+    print("Empréstimo registrado com sucesso!")
+
+    return livros
