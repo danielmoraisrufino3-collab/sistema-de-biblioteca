@@ -5,18 +5,23 @@ ARQUIVO_LIVROS = "livros.csv"
 
 
 def carregar_livros():
-    """Carrega os livros salvos no arquivo CSV."""
+    """Carrega os livros do arquivo CSV."""
     livros = []
 
     if not os.path.exists(ARQUIVO_LIVROS):
         return livros
 
-    with open(ARQUIVO_LIVROS, "r", newline="", encoding="utf-8") as arquivo:
-        leitor = csv.DictReader(arquivo)
+    try:
+        with open(ARQUIVO_LIVROS, "r", newline="", encoding="utf-8") as arquivo:
+            leitor = csv.DictReader(arquivo)
 
-        for livro in leitor:
-            livro["ano"] = int(livro["ano"])
-            livros.append(livro)
+            for livro in leitor:
+                livro["ano"] = int(livro["ano"])
+                livros.append(livro)
+
+    except (ValueError, KeyError):
+        print("Erro ao ler o arquivo de livros.")
+        return []
 
     return livros
 
@@ -69,8 +74,8 @@ def cadastrar_livro(livros):
         "isbn": isbn,
         "status": "disponível"
     }
-livros.append(novo_livro)
-    salvar_livros(livros)
+livros.append (novo_livro)
+    salvar_livros (livros)
 
     print("Livro cadastrado com sucesso!")
 
@@ -232,3 +237,42 @@ def exibir_menu():
     print("6 - Ordenar livros")
     print("7 - Sair")
     print("=" * 50)
+
+def main():
+    """Função principal do sistema."""
+    livros = carregar_livros()
+
+    while True:
+        exibir_menu()
+
+        opcao = input("Escolha uma opção: ").strip()
+
+        if opcao == "1":
+            livros = cadastrar_livro(livros)
+
+        elif opcao == "2":
+            livros = emprestar_livro(livros)
+
+        elif opcao == "3":
+            livros = devolver_livro(livros)
+
+        elif opcao == "4":
+            listar_livros(livros)
+
+        elif opcao == "5":
+            buscar_livro(livros)
+
+        elif opcao == "6":
+            livros = ordenar_livros(livros)
+
+        elif opcao == "7":
+            salvar_livros(livros)
+            print("Sistema encerrado. Até logo!")
+            break
+
+        else:
+            print("Opção inválida. Escolha uma opção de 1 a 7.")
+
+
+if __name__ == "__main__":
+    main()
