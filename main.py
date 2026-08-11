@@ -153,3 +153,82 @@ def listar_livros(livros):
         )
 
     return livros
+
+def buscar_livro(livros):
+    """Busca livros pelo título ou autor."""
+    print("\n--- BUSCAR LIVRO ---")
+
+    termo = input("Digite o título ou autor: ").strip().lower()
+
+    resultados = []
+
+    for livro in livros:
+        if (
+            termo in livro["titulo"].lower()
+            or termo in livro["autor"].lower()
+        ):
+            resultados.append(livro)
+
+    if not resultados:
+        print("Nenhum livro encontrado.")
+    else:
+        print("\nLivros encontrados:")
+
+        for livro in resultados:
+            print(
+                f"Título: {livro['titulo']} | "
+                f"Autor: {livro['autor']} | "
+                f"Ano: {livro['ano']} | "
+                f"ISBN: {livro['isbn']} | "
+                f"Status: {livro['status']}"
+            )
+
+    return resultados
+def ordenar_livros(livros):
+    """Ordena os livros por título, autor ou ano."""
+    print("\n--- ORDENAR LIVROS ---")
+    print("1 - Título")
+    print("2 - Autor")
+    print("3 - Ano")
+
+    opcao = input("Escolha o critério: ").strip()
+
+    if opcao == "1":
+        livros.sort(
+            key=lambda livro: livro["titulo"].lower()
+        )
+        print("Livros ordenados por título.")
+
+    elif opcao == "2":
+        livros.sort(
+            key=lambda livro: livro["autor"].lower()
+        )
+        print("Livros ordenados por autor.")
+
+    elif opcao == "3":
+        livros.sort(
+            key=lambda livro: livro["ano"]
+        )
+        print("Livros ordenados por ano.")
+
+    else:
+        print("Opção inválida.")
+
+    salvar_livros(livros)
+
+    return livros
+
+
+def exibir_menu():
+    """Exibe o menu principal do sistema."""
+    print("\n" + "=" * 50)
+    print("       SISTEMA DE GERENCIAMENTO DE BIBLIOTECA")
+    print("=" * 50)
+    print("1 - Cadastrar livro")
+    print("2 - Emprestar livro")
+    print("3 - Devolver livro")
+    print("4 - Listar livros")
+    print("5 - Buscar livro")
+    print("6 - Ordenar livros")
+    print("7 - Sair")
+    print("=" * 50)
