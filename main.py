@@ -109,3 +109,47 @@ def emprestar_livro(livros):
     print("Empréstimo registrado com sucesso!")
 
     return livros
+def devolver_livro(livros):
+    """Registra a devolução de um livro."""
+    print("\n--- DEVOLVER LIVRO ---")
+
+    isbn = input("Digite o código/ISBN: ").strip()
+
+    livro = encontrar_livro(livros, isbn)
+
+    if livro is None:
+        print("Livro não encontrado.")
+        return livros
+
+    if livro["status"] == "disponível":
+        print("Este livro já está disponível.")
+        return livros
+
+    livro["status"] = "disponível"
+
+    salvar_livros(livros)
+
+    print("Devolução registrada com sucesso!")
+
+    return livros
+
+
+def listar_livros(livros):
+    """Lista todos os livros cadastrados."""
+    print("\n--- LISTA DE LIVROS ---")
+
+    if not livros:
+        print("Nenhum livro cadastrado.")
+        return livros
+
+    for numero, livro in enumerate(livros, start=1):
+        print(
+            f"{numero}. "
+            f"Título: {livro['titulo']} | "
+            f"Autor: {livro['autor']} | "
+            f"Ano: {livro['ano']} | "
+            f"ISBN: {livro['isbn']} | "
+            f"Status: {livro['status']}"
+        )
+
+    return livros
